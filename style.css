@@ -212,6 +212,7 @@ h1 {
 
 /* Colorful glowing title */
 .yes-title {
+    font-family: 'Pacifico', cursive;
     font-size: 3.5rem;
     font-weight: 900;
     background: linear-gradient(45deg, #ff4ecd, #ff7a18, #ffd700, #00c3ff);
@@ -268,3 +269,4 @@ h1 {
         transform: translateY(0)
     }
 }
+
