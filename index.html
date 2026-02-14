@@ -3,18 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚠️ Important Question ⚠️
-Do you remember what today is?</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <title>⚠️ Important Question ⚠️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(-45deg, #FF9A9E, #FAD0C4, #FFECD2, #FCB69F);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glass Container */
+        .container {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 30px;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 90%;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: #d63384;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        #cat-gif {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Button Styling */
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        /* The "Yes" Button - Strong & Growing */
+        #yes-btn {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 900;
+            padding: 15px 35px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            white-space: nowrap;
+        }
+
+        #yes-btn:hover {
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 15px 25px rgba(76, 175, 80, 0.5);
+        }
+
+        /* The "No" Button - Subtle & Running Away */
+        #no-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 12px 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        #tease-toast {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #d63384;
+            font-weight: 700;
+            font-style: italic;
+            height: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        #tease-toast.show { opacity: 1; }
+
+    </style>
 </head>
 <body>
-    <div class="hearts-bg"></div>
 
     <div class="container">
-        <h1>⚠️ Important Question ⚠️
-Do you remember what today is?</h1>
+        <h1>⚠️ Important Question ⚠️<br>Do you remember what today is?</h1>
 
         <div class="gif-container">
             <img id="cat-gif" src="https://media.tenor.com/EBV7OT7ACfwAAAAj/u-u-qua-qua-u-quaa.gif" alt="cute character">
@@ -24,15 +133,75 @@ Do you remember what today is?</h1>
             <button id="yes-btn" onclick="handleYesClick()">Yes, of course 😌</button>
             <button id="no-btn" onclick="handleNoClick()">No idea 🤔</button>
         </div>
+        
         <div id="tease-toast"></div>
     </div>
 
-    <audio id="bg-music" loop autoplay muted>
-        <source src="music/beabadoobee - Glue Song (Lyrics).mp3" type="audio/mpeg">
-    </audio>
+    <script>
+        const gifStages = [
+            "https://media.tenor.com/EBV7OT7ACfwAAAAj/u-u-qua-qua-u-quaa.gif",
+            "https://media.tenor.com/WGfra-Y_Ke0AAAAd/chiikawa-sad.gif",
+            "https://media.tenor.com/f_rkpJbH1s8AAAAj/somsom1012.gif",
+            "https://media.tenor.com/OGY9zdREsVAAAAAj/somsom1012.gif",
+            "https://media.tenor.com/CivArbX7NzQAAAAj/somsom1012.gif",
+            "https://media.tenor.com/5_tv1HquZlcAAAAj/chiikawa.gif"
+        ];
 
-    <button id="music-toggle" onclick="toggleMusic()" title="Toggle music">🔊</button>
+        const noMessages = [
+            "No idea 🤔", "Really? Think again 🧐", "Use your brain please 😭",
+            "Very important day 😤", "You're forgetting something... 😔", "Last chance! 😠"
+        ];
 
-    <script src="script.js"></script>
+        let noClickCount = 0;
+        let runawayEnabled = false;
+
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+        const catGif = document.getElementById('cat-gif');
+        const toast = document.getElementById('tease-toast');
+
+        function handleNoClick() {
+            noClickCount++;
+            
+            // 1. Change Text
+            const msgIndex = Math.min(noClickCount, noMessages.length - 1);
+            noBtn.textContent = noMessages[msgIndex];
+
+            // 2. Grow Yes Button
+            const newScale = 1 + (noClickCount * 0.35);
+            yesBtn.style.transform = `scale(${newScale})`;
+            
+            // 3. Change GIF
+            const gifIndex = Math.min(noClickCount, gifStages.length - 1);
+            catGif.src = gifStages[gifIndex];
+
+            // 4. Enable Runaway at 4 clicks
+            if (noClickCount >= 4 && !runawayEnabled) {
+                runawayEnabled = true;
+                noBtn.style.position = 'fixed';
+                noBtn.addEventListener('mouseover', runAway);
+            }
+        }
+
+        function runAway() {
+            const margin = 50;
+            const maxX = window.innerWidth - noBtn.offsetWidth - margin;
+            const maxY = window.innerHeight - noBtn.offsetHeight - margin;
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+        }
+
+        function handleYesClick() {
+            if (noClickCount < 1) {
+                toast.textContent = "Try clicking 'No' first... trust me 😏";
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            } else {
+                window.location.href = 'yes.html';
+            }
+        }
+    </script>
 </body>
 </html>
