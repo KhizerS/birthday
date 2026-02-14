@@ -1,34 +1,40 @@
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
 <div class="container yes-container">
-
-    <h1 class="yes-title">🎉 HAPPY BIRTHDAYYYYY 🎂</h1>
-
-    <div class="gif-container">
-        <img id="cat-gif"
-        src="https://media.tenor.com/eNHbizSfVb0AAAAj/lovemode-cute.gif"
-        alt="celebrating">
-    </div>
-
     <div class="birthday-card">
+        <h1 class="yes-title floating">🎉 Happy Birthday! 🎂</h1>
 
-        <p class="line">Congratulations! You unlocked your birthday 🥳✨</p>
+        <div class="gif-container">
+            <img id="cat-gif" 
+                 src="https://media.tenor.com/eNHbizSfVb0AAAAj/lovemode-cute.gif" 
+                 alt="celebrating" 
+                 style="width: 220px;">
+        </div>
 
-        <p class="line">
-            Happy Birthday to the most chaotic, dramatic, amazing, and irreplaceable human I know 💛
-        </p>
-
-        <p class="line">
-            May your year be full of laughter, success, and zero bad days 🎈
-        </p>
-
-        <p class="line">
-            Some people come and go, but I really hope you stay in my life forever..
-        </p>
-
-        <p class="highlight">
-            Life feels a little brighter, a little funnier, and a lot better with you in it 💛
-        </p>
-
+        <div class="message-content">
+            <p class="line">Congratulations! You unlocked your birthday 🥳✨</p>
+            <p class="line">Happy Birthday to the most <b>chaotic</b>, <b>dramatic</b>, and <b>irreplaceable</b> human I know 💛</p>
+            <p class="line">May your year be full of laughter, success, and zero bad days 🎈</p>
+            <p class="line">Some people come and go, but I really hope you stay in my life forever.</p>
+            
+            <p class="highlight">Life feels a little brighter, a little funnier, and a lot better with you in it 💛</p>
+        </div>
     </div>
-
 </div>
+
+<audio id="bg-music" loop>
+    <source src="music/beabadoobee - Glue Song (Lyrics).mp3" type="audio/mpeg">
+</audio>
+
+<button id="music-toggle" onclick="toggleMusic()" style="position: fixed; bottom: 20px; right: 20px;">🔊</button>
+
+<script src="yes_script.js"></script>
+</body>
+</html>
