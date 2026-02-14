@@ -1,40 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday! 🎉</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Animated Gradient Background */
+            background: linear-gradient(-45deg, #FF9A9E, #FAD0C4, #FFECD2, #FCB69F);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* The "Exciting" Card */
+        .birthday-card {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .yes-title {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.8rem;
+            color: #FF1493;
+            margin-bottom: 20px;
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        #cat-gif {
+            width: 200px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .line {
+            font-size: 1.1rem;
+            color: #444;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .highlight {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #D63384;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        /* Floating Hearts in Background */
+        .heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.6);
+            user-select: none;
+            pointer-events: none;
+            animation: flyUp 6s linear forwards;
+        }
+
+        @keyframes flyUp {
+            from { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            to { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="container yes-container">
     <div class="birthday-card">
-        <h1 class="yes-title floating">🎉 Happy Birthday! 🎂</h1>
-
-        <div class="gif-container">
-            <img id="cat-gif" 
-                 src="https://media.tenor.com/eNHbizSfVb0AAAAj/lovemode-cute.gif" 
-                 alt="celebrating" 
-                 style="width: 220px;">
-        </div>
+        <h1 class="yes-title">🎉 HAPPY BIRTHDAY! 🎂</h1>
+        
+        <img id="cat-gif" src="https://media.tenor.com/eNHbizSfVb0AAAAj/lovemode-cute.gif" alt="Happy Cat">
 
         <div class="message-content">
             <p class="line">Congratulations! You unlocked your birthday 🥳✨</p>
-            <p class="line">Happy Birthday to the most <b>chaotic</b>, <b>dramatic</b>, and <b>irreplaceable</b> human I know 💛</p>
+            <p class="line">Happy Birthday to the most <b>chaotic, dramatic, amazing,</b> and <b>irreplaceable</b> human I know 💛</p>
             <p class="line">May your year be full of laughter, success, and zero bad days 🎈</p>
-            <p class="line">Some people come and go, but I really hope you stay in my life forever.</p>
-            
-            <p class="highlight">Life feels a little brighter, a little funnier, and a lot better with you in it 💛</p>
+            <p class="line">I hope you stay in my life forever...</p>
+            <p class="highlight">Life feels a little brighter with you in it 💛</p>
         </div>
     </div>
-</div>
 
-<audio id="bg-music" loop>
-    <source src="music/beabadoobee - Glue Song (Lyrics).mp3" type="audio/mpeg">
-</audio>
+    <script>
+        // Start Confetti immediately
+        function celebrate() {
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
-<button id="music-toggle" onclick="toggleMusic()" style="position: fixed; bottom: 20px; right: 20px;">🔊</button>
+            function randomInRange(min, max) {
+              return Math.random() * (max - min) + min;
+            }
 
-<script src="yes_script.js"></script>
+            const interval = setInterval(function() {
+              const timeLeft = animationEnd - Date.now();
+
+              if (timeLeft <= 0) {
+                return clearInterval(interval);
+              }
+
+              const particleCount = 50 * (timeLeft / duration);
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        // Create random floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            heart.style.duration = Math.random() * 3 + 3 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+
+        window.onload = () => {
+            celebrate();
+            setInterval(createHeart, 300);
+        };
+    </script>
 </body>
 </html>
