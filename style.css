@@ -38,6 +38,10 @@ body {
     text-align: center;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     animation: cardEntrance 1s ease-out;
+    height: auto; /* Ensure it grows with content */
+    margin: 20px auto; /* Centers it and adds breathing room */
+    max-height: none; /* Removes any height limits */
+}
 }
 
 @keyframes cardEntrance {
